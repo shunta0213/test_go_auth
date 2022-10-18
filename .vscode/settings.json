@@ -1,7 +1,3 @@
 {
-  "cSpell.words": [
-    "ginserver",
-    "signin",
-    "signup"
-  ]
+  "cSpell.words": ["ginserver", "grpcserver", "signin", "signup"]
 }
