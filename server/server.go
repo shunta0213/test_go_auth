@@ -16,20 +16,30 @@ func ServerType() {
 	for {
 		// Get Server Type
 		cLog.Println("Choose Server Type: ")
-		cLog.Println("1: gin")
-		cLog.Println("2: gRPC")
+		cLog.Println("1: gin http server")
+		cLog.Println("2: gin https server")
+		cLog.Println("3: gRPC")
 		scanner.Scan()
 		in := scanner.Text()
 
 		// run functions according to got text
 		switch in {
-		// Run gin server
+
+		// Run gin http server
+		// DO NOT use in the production env.
 		case "1":
-			cLog.Println("Starting gin server...")
-			ginserver.RunGinServer()
+			cLog.Println("Starting gin http server...")
+			cLog.Warning("You are using http, everyone can see the body of API request.")
+			cLog.Warning("Don't use in the production environment.")
+			ginserver.RunGinServer(false)
+
+		// Run gin 'https' server
+		case "2":
+			cLog.Println("Starting gin https server..")
+			ginserver.RunGinServer(true)
 
 		// run gRPC server
-		case "2":
+		case "3":
 			cLog.Println("Currently gRPC is not available.")
 			cLog.Println("Please use gin server")
 
