@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
+	// Choose Server type and Run Server
 	server.ServerType()
 }
