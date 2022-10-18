@@ -26,7 +26,7 @@ Else, it return bcrypt.ErrMismatchedHashAndPassword
 
 func ComparePasswordAndHash(pw string, hash string) error {
 	pwByte := []byte(pw)
-	hashByte := []byte(pw)
+	hashByte := []byte(hash)
 
 	err := bcrypt.CompareHashAndPassword(hashByte, pwByte)
 
