@@ -1,4 +1,4 @@
-package server
+package ginserver
 
 import (
 	"net/http"
@@ -14,4 +14,10 @@ func SetRoutes(r *gin.Engine) {
 			"message": "Hello!",
 		})
 	})
+
+	// SignIn
+	r.GET("/signin", func(ctx *gin.Context) {})
+
+	// SingUp
+	r.POST("/signup", func(ctx *gin.Context) {})
 }
