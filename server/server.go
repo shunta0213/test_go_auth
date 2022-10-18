@@ -8,6 +8,7 @@ import (
 	"github.com/shunta0213/test_go_auth/server/ginserver"
 )
 
+// Run server from stdin
 func ServerType() {
 
 	scanner := bufio.NewScanner(os.Stdin)
