@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	ginserver "github.com/shunta0213/test_go_auth/server/gin_server"
+	"github.com/shunta0213/test_go_auth/server/ginserver"
 )
 
 func ServerType() {
