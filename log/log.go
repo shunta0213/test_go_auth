@@ -7,9 +7,9 @@ import (
 
 /*
 Custom Log
-
-The basic log: [Go_auth](date) message
 */
+
+// The basic logs: [Go_auth](date) message
 
 // fmt.Print()
 func Print(msg string) {
@@ -30,4 +30,12 @@ func Println(msg string, a ...any) {
 func Printf(msg string, a ...any) {
 	text := fmt.Sprintf(msg, a...)
 	Println(text)
+}
+
+// Warnings Logs: [Go_auth] [WARNING] (date) message
+
+func Warning(msg string) {
+	now := time.Now()
+	date := fmt.Sprintf("%d/%d %d:%d:%d", now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
+	fmt.Printf("[Go_auth] \x1b[31m%s\x1b[0m (%s) %s \n", "[WARNING]", date, msg)
 }
