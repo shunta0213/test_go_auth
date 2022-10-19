@@ -6,6 +6,7 @@ import (
 
 	cLog "github.com/shunta0213/test_go_auth/log"
 	"github.com/shunta0213/test_go_auth/server/ginserver"
+	"github.com/shunta0213/test_go_auth/server/httpserver"
 )
 
 // Run server from stdin
@@ -19,6 +20,7 @@ func ServerType() {
 		cLog.Println("1: gin http server")
 		cLog.Println("2: gin https server")
 		cLog.Println("3: gRPC")
+		cLog.Println("4: net/http server")
 		scanner.Scan()
 		in := scanner.Text()
 
@@ -29,8 +31,7 @@ func ServerType() {
 		// DO NOT use in the production env.
 		case "1":
 			cLog.Println("Starting gin http server...")
-			cLog.Warning("You are using http, everyone can see the body of API request.")
-			cLog.Warning("Don't use in the production environment.")
+			cLog.Warning("SSL is not used. DO NOT use in production.")
 			ginserver.RunGinServer(false)
 
 		// Run gin 'https' server
@@ -42,6 +43,12 @@ func ServerType() {
 		case "3":
 			cLog.Println("Currently gRPC is not available.")
 			cLog.Println("Please use gin server")
+
+		// Run net/http HTTP Server
+		case "4":
+			cLog.Println("Starting go http server...")
+			cLog.Warning("SSL is not used. DO NOT use in production.")
+			httpserver.RunHttpServer(false)
 
 		// When unavailable choice
 		default:
