@@ -2,10 +2,13 @@
   "cSpell.words": [
     "dbname",
     "ginserver",
+    "gonic",
     "grpcserver",
     "httpserver",
     "signin",
-    "signup"
+    "signup",
+    "sqlboiler",
+    "volatiletech"
   ],
   "sqltools.connections": [
     {
