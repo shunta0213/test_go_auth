@@ -1,9 +1,22 @@
 {
   "cSpell.words": [
+    "dbname",
     "ginserver",
     "grpcserver",
     "httpserver",
     "signin",
     "signup"
+  ],
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "database": "auth",
+      "username": "user",
+      "password": "secret",
+      "name": "Auth"
+    }
   ]
 }
