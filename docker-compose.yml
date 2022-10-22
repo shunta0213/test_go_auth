@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: go_auth
+    ports:
+     - 5432:5432
+    volumes:
+     - go_auth:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=secret
+    networks:
+      - auth_networks
+
+  auth:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    stdin_open: true
+    tty: true
+    ports:
+      - 3306:3306
+    networks:
+      - auth_networks
+
+networks:
+  auth_networks:
+
+volumes:
+  go_auth:
