@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"database/sql"
-	"errors"
 
 	"github.com/gin-gonic/gin"
 	"github.com/shunta0213/test_go_auth/models"
@@ -51,21 +50,22 @@ func (s userService) SignIn(c *gin.Context) (*models.User, error) {
 	if err := c.ShouldBindJSON(u); err != nil {
 		return nil, err
 	}
+
 	// Get password from database
 	user, err := models.Users(
 		qm.Select("password"),
 		qm.Where("username=?", u.Username),
 	).One(context.Background(), s.DB)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, sql.ErrNoRows
-		}
+		return nil, err
 	}
+
 	// Compare raw password and hashed password from database.
 	hashPass := user.Password
 	err = password.ComparePasswordAndHash(u.Password, hashPass)
 	if err != nil {
 		return nil, err
 	}
+
 	return user, nil
 }
