@@ -24,6 +24,14 @@ func ServerType() {
 		scanner.Scan()
 		in := scanner.Text()
 
+		// Connect Database
+		cLog.Println("Connecting database...")
+		db, err := ConnectDatabase()
+		if err != nil {
+			cLog.Fatalf("Cannot connect database:", err)
+			return
+		}
+
 		// run functions according to got text
 		switch in {
 
@@ -32,12 +40,12 @@ func ServerType() {
 		case "1":
 			cLog.Println("Starting gin http server...")
 			cLog.Warning("SSL is not used. DO NOT use in production.")
-			ginserver.RunGinServer(false)
+			ginserver.RunGinServer(false, db)
 
 		// Run gin 'https' server
 		case "2":
 			cLog.Println("Starting gin https server..")
-			ginserver.RunGinServer(true)
+			ginserver.RunGinServer(true, db)
 
 		// run gRPC server
 		case "3":
