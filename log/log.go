@@ -47,3 +47,7 @@ func Fatal(msg string) {
 	date := fmt.Sprintf("%d/%d %d:%d:%d", now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
 	fmt.Printf("[Go_auth] \x1b[31m%s\x1b[0m (%s) %s \n", "[FATAL]", date, msg)
 }
+
+func Fatalf(msg string, a ...any) {
+	Fatal(fmt.Sprintf(msg, a...))
+}
