@@ -25,12 +25,9 @@ func ConnectDatabase() (*sql.DB, error) {
 
 func loadConfig() string {
 	err := godotenv.Load(".env")
-
 	if err != nil {
-		cLog.Fatalf("Could not load .env file:", err)
-		return ""
+		cLog.Fatalf("Could not load .env", err)
 	}
-
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s database=%s",
+	return fmt.Sprintf("host=%s port=%s user=%s password=%s database=%s sslmode=disable",
 		os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"))
 }
