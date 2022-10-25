@@ -57,7 +57,7 @@ func GetUserHashedPasswordFromEmail(db *sql.DB, email string) (*User, error) {
 	return &u, nil
 }
 
-func CreateUser(db *sql.DB, user User) (*User, error) {
+func CreateUser(db *sql.DB, user *User) (*User, error) {
 
 	query := "INSERT INTO users.users (username, email, password) VALUES ($1, $2, $3)"
 	_, err := db.Exec(query, user.Username, user.Email, user.Password)
