@@ -167,7 +167,7 @@ func TestCreateUser(t *testing.T) {
 				t.Fatal("Cannot create mock table", err)
 			}
 
-			user, err := repository.CreateUser(db, tt)
+			user, err := repository.CreateUser(db, &tt)
 			if err != nil {
 				t.Error("Could not create user", err)
 			}
