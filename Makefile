@@ -1,13 +1,13 @@
 up:
-	docker-compose up --build
+	docker-compose up --build -d
+	make core
 
 down:
 	docker-compose down
 	docker-compose -f docker-compose.test.yaml down --volumes
 
 core:
-	docker attach test_go_auth-core-1
-
+	docker attach core
 
 test:
 	make uptest
