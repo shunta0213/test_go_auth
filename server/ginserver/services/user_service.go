@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/gin-gonic/gin"
+	cLog "github.com/shunta0213/test_go_auth/log"
 	"github.com/shunta0213/test_go_auth/password"
 	"github.com/shunta0213/test_go_auth/server/ginserver/repository"
 )
@@ -24,8 +25,9 @@ func NewUserService(DB *sql.DB) UserService {
 func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 	// Bind
 	u := repository.User{}
-	err := c.ShouldBindJSON(u)
+	err := c.ShouldBindJSON(&u)
 	if err != nil {
+		cLog.Fatalf("Failed to Bind", err)
 		return nil, err
 	}
 
@@ -34,8 +36,9 @@ func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 	u.Password = hashPass
 
 	// Insert
-	gotUser, err := repository.CreateUser(s.DB, u)
+	gotUser, err := repository.CreateUser(s.DB, &u)
 	if err != nil {
+		cLog.Fatalf("Failed to insert user", err)
 		return nil, err
 	}
 
@@ -45,7 +48,8 @@ func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 func (s userService) SignIn(c *gin.Context) (*repository.User, error) {
 	// Bind
 	u := SingInDto{}
-	if err := c.ShouldBindJSON(u); err != nil {
+	if err := c.ShouldBindJSON(&u); err != nil {
+		cLog.Fatalf("Cannot Bind json")
 		return nil, err
 	}
 
