@@ -1,3 +1,5 @@
 .env
 
 sqlboiler.toml
+
+.DS_Store
