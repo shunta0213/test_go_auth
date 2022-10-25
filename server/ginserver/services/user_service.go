@@ -1,19 +1,16 @@
 package services
 
 import (
-	"context"
 	"database/sql"
 
 	"github.com/gin-gonic/gin"
-	"github.com/shunta0213/test_go_auth/models"
 	"github.com/shunta0213/test_go_auth/password"
-	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
+	"github.com/shunta0213/test_go_auth/server/ginserver/repository"
 )
 
 type UserService interface {
-	SignUp(c *gin.Context) (*models.User, error)
-	SignIn(c *gin.Context) (*models.User, error)
+	SignUp(c *gin.Context) (*repository.User, error)
+	SignIn(c *gin.Context) (*repository.User, error)
 }
 
 type userService struct {
@@ -24,10 +21,11 @@ func NewUserService(DB *sql.DB) UserService {
 	return &userService{DB: DB}
 }
 
-func (s userService) SignUp(c *gin.Context) (*models.User, error) {
+func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 	// Bind
-	u := models.User{}
-	if err := c.ShouldBindJSON(u); err != nil {
+	u := repository.User{}
+	err := c.ShouldBindJSON(u)
+	if err != nil {
 		return nil, err
 	}
 
@@ -36,15 +34,15 @@ func (s userService) SignUp(c *gin.Context) (*models.User, error) {
 	u.Password = hashPass
 
 	// Insert
-	err := u.Insert(context.Background(), s.DB, boil.Infer())
+	gotUser, err := repository.CreateUser(s.DB, u)
 	if err != nil {
 		return nil, err
 	}
 
-	return &u, nil
+	return gotUser, nil
 }
 
-func (s userService) SignIn(c *gin.Context) (*models.User, error) {
+func (s userService) SignIn(c *gin.Context) (*repository.User, error) {
 	// Bind
 	u := SingInDto{}
 	if err := c.ShouldBindJSON(u); err != nil {
@@ -52,10 +50,7 @@ func (s userService) SignIn(c *gin.Context) (*models.User, error) {
 	}
 
 	// Get password from database
-	user, err := models.Users(
-		qm.Select("password"),
-		qm.Where("username=?", u.Username),
-	).One(context.Background(), s.DB)
+	user, err := repository.GetUserHashedPasswordFromUserName(s.DB, u.Username)
 	if err != nil {
 		return nil, err
 	}
