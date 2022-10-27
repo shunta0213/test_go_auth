@@ -47,7 +47,7 @@ func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 
 func (s userService) SignIn(c *gin.Context) (*repository.User, error) {
 	// Bind
-	u := SingInDto{}
+	u := SignInDto{}
 	if err := c.ShouldBindJSON(&u); err != nil {
 		cLog.Fatalf("Cannot Bind json")
 		return nil, err
