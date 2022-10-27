@@ -1,13 +1,10 @@
 up:
 	docker-compose up --build -d
-	make core
+	go run main.go
 
 down:
-	docker-compose down
-	docker-compose -f docker-compose.test.yaml down --volumes
-
-core:
-	docker attach core
+	docker-compose down --rmi local
+	docker-compose -f docker-compose.test.yaml down --volumes --rmi local
 
 test:
 	make uptest

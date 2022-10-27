@@ -13,21 +13,21 @@ services:
     networks:
       - auth_networks
 
-  core:
-    container_name: core
-    depends_on:
-      - postgres
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    stdin_open: true
-    tty: true
-    env_file:
-     - ".env"
-    ports:
-      - 8080:8080
-    networks:
-      - auth_networks
+  # core:
+  #   container_name: core
+  #   depends_on:
+  #     - postgres
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   stdin_open: true
+  #   tty: true
+  #   env_file:
+  #    - ".env"
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - auth_networks
 
 networks:
   auth_networks:
