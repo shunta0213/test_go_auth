@@ -24,7 +24,7 @@ func NewUserService(DB *sql.DB) UserService {
 
 func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 	// Bind
-	u := repository.User{}
+	u := SignUpDto{}
 	err := c.ShouldBindJSON(&u)
 	if err != nil {
 		cLog.Fatalf("Failed to Bind", err)
@@ -36,7 +36,7 @@ func (s userService) SignUp(c *gin.Context) (*repository.User, error) {
 	u.Password = hashPass
 
 	// Insert
-	gotUser, err := repository.CreateUser(s.DB, &u)
+	gotUser, err := repository.CreateUser(s.DB, u.Username, u.Email, u.Password)
 	if err != nil {
 		cLog.Fatalf("Failed to insert user", err)
 		return nil, err

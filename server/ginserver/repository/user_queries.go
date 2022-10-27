@@ -57,17 +57,17 @@ func GetUserHashedPasswordFromEmail(db *sql.DB, email string) (*User, error) {
 	return &u, nil
 }
 
-func CreateUser(db *sql.DB, user *User) (*User, error) {
+func CreateUser(db *sql.DB, username string, email string, password string) (*User, error) {
 
 	query := "INSERT INTO users.users (username, email, password) VALUES ($1, $2, $3)"
-	_, err := db.Exec(query, user.Username, user.Email, user.Password)
+	_, err := db.Exec(query, username, email, password)
 	if err != nil {
 		return nil, err
 	}
 
 	time.Sleep(time.Second * 2)
 
-	u, err := GetUserFromUserName(db, user.Username)
+	u, err := GetUserFromUserName(db, username)
 	if err != nil {
 		return nil, err
 	}
