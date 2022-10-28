@@ -40,6 +40,8 @@ func TestUserService_SingUp(t *testing.T) {
 	if err != nil {
 		t.Fatal("Could not connect to database", err)
 	}
+
+	// User Service
 	userService := services.NewUserService(db)
 
 	// Create Gin Engine
@@ -69,7 +71,8 @@ func TestUserService_SingUp(t *testing.T) {
 			}
 			w := httptest.NewRecorder()
 			r.ServeHTTP(w, req)
-			// TODO cannot bind response.
+
+			// TODO bind response.
 			// res := w.Result()
 			// resBody, err := ioutil.ReadAll(res.Body)
 			// if err != nil {
@@ -85,8 +88,52 @@ func TestUserService_SingUp(t *testing.T) {
 			// Assertion
 			assert := assert.New(t)
 			assert.Equal(http.StatusOK, w.Code)
+
 			// assert.Equal(tt.Username, user.Username)
 			// assert.Equal(tt.Email, user.Email)
+		})
+	}
+}
+
+func TestService_SignIn(t *testing.T) {
+	// Connect DB
+	db, err := ConnectTestDatabase()
+	if err != nil {
+		t.Fatal("Could not connect to database", err)
+	}
+
+	// User Service
+	userService := services.NewUserService(db)
+
+	// Create Gin Engine
+	r := gin.Default()
+	r.GET("/signin", func(ctx *gin.Context) { userService.SignIn(ctx) })
+
+	// Mock Data
+	tests := []services.SignUpDto{
+		{Username: "test1", Password: "pass1"},
+		{Username: "test2", Password: "pass2"},
+	}
+
+	for _, tt := range tests {
+		t.Run(fmt.Sprint("Login", tt.Username), func(t *testing.T) {
+			// Struct to Json and Create New Reader
+			body, err := json.Marshal(tt)
+			if err != nil {
+				t.Fatal("Could not marshal json", err)
+			}
+			bodyBuffer := bytes.NewBuffer(body)
+
+			req, err := http.NewRequest("GET", "/signin", bodyBuffer)
+			if err != nil {
+				t.Fatal("Could not send new api request", err)
+			}
+			w := httptest.NewRecorder()
+			r.ServeHTTP(w, req)
+
+			// Assertion
+			assert := assert.New(t)
+			assert.Equal(http.StatusOK, w.Code)
 		})
 	}
 }
